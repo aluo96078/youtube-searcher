@@ -1,19 +1,18 @@
-package parser
+package searcher
 
 import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	"regexp"
-	"spotdl/model"
 	"strings"
+	"youtube-searcher/model"
 
 	"github.com/dop251/goja"
 	"golang.org/x/net/html"
 )
 
-func JavascriptDataProvider(script *string, variableName string) (videos []model.Video, err error) {
+func javascriptDataProvider(script *string, variableName string) (videos []model.Video, err error) {
 	vm := goja.New()
 	if !strings.HasSuffix(*script, ";") {
 		*script += ";"
@@ -69,7 +68,7 @@ func JavascriptDataProvider(script *string, variableName string) (videos []model
 	return
 }
 
-func GetTargetJSVariable(target *regexp.Regexp, scripts []string) (script *string) {
+func getTargetJSVariable(target *regexp.Regexp, scripts []string) (script *string) {
 	script = new(string)
 	// re := regexp.MustCompile(`ytInitialData\s= {`)
 	index := 0
@@ -85,15 +84,8 @@ func GetTargetJSVariable(target *regexp.Regexp, scripts []string) (script *strin
 	return
 }
 
-func ExtractScripts(filePath string) ([]string, error) {
-	// 打開 HTML 檔案
-	file, err := os.Open(filePath)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	doc, err := html.Parse(file)
+func extractScripts(htmlBody string) ([]string, error) {
+	doc, err := html.Parse(strings.NewReader(htmlBody))
 	if err != nil {
 		return nil, err
 	}

@@ -1,11 +1,8 @@
-module spotdl
+module youtube-searcher
 
-go 1.22.4
+go 1.23
 
-require (
-	github.com/robertkrimen/otto v0.5.1
-	golang.org/x/net v0.32.0
-)
+require golang.org/x/net v0.32.0
 
 require (
 	github.com/dlclark/regexp2 v1.11.4 // indirect
@@ -16,5 +13,4 @@ require (
 require (
 	github.com/dop251/goja v0.0.0-20241024094426-79f3a7efcdbd
 	golang.org/x/text v0.21.0 // indirect
-	gopkg.in/sourcemap.v1 v1.0.5 // indirect
 )
